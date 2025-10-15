@@ -4,23 +4,38 @@
 
 	<script>
 		var saldo = 100.5; //Float
+		var nome = prompt("Digite o seu nome please")
+		alert(`Olá ${nome}é um prazer ter você por aqui!`)
 		function inicio() {
 
-			var escolha = parseInt(prompt('Selecione uma opção 1.) Saldo 2.) Depósito 3.) Saque 4.) Sair'));
+			var escolha = parseInt(prompt('Selecione uma opção 1.) Saldo 2.) Depósito 3.) Saque 4.) Sair 5) Ver extrato'));
 
-			if (escolha === 1) {
-				ver_saldo();
-			} else if (escolha === 2) {
-				fazer_deposito();
-			} else if (escolha === 3) {
-				fazer_saque();
-			} else if (escolha === 4) {
-				sair();
-			} else {
-				erro();
+			switch (escolha) {
+				case 1:
+					ver_saldo();
+					break;
+				case 2:
+					fazer_deposito();
+					break;
+				case 3:
+					fazer_saque();
+
+					break;
+				case 4:
+					sair();
+
+					break;
+				case 5:
+					ver_extrato();
+
+					break;
+
+				default:
+					erro();
+
+					break;
 			}
-		}		
-
+		}
 		function ver_saldo() {
 			alert('Seu saldo atual é: ' + saldo);
 			inicio();
@@ -44,12 +59,29 @@
 				alert('Por favor, informe um número:');
 				fazer_saque();
 			} else {
-				saldo -= saque;
-				
-				ver_saldo();
+				if (saque > saldo || saque <= 0) {
+					alert("Operação não autorizada")
+					ver_saldo();
+				} else {
+					saldo -= saque;
+					ver_saldo();
+				}
 			}
 		}
 
+		function ver_extrato() {
+			var compras = {
+				nome: ["Roupa", "Fruta", "Comida"],
+				Roupa: 120,
+				Fruta: 150,
+				Comida: 30
+			};
+
+			var total = compras.Roupa + compras.Fruta + compras.Comida;
+
+			alert(`O seu extrato é de: R$ ${total}`);
+		}
+		
 		function erro() {
 			alert('Por favor, informe um número entre 1 e 4');
 			inicio();
@@ -64,8 +96,8 @@
 			}
 		}
 
-		
-		
+
+
 		inicio();
 	</script>
 </head>
