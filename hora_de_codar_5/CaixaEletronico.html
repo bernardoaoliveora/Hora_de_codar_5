@@ -5,29 +5,33 @@
 	<script>
 		var saldo = 100.5; //Float
 		var nome = prompt("Digite o seu nome please")
-		alert(`Olá ${nome}é um prazer ter você por aqui!`)
+		alert(`Olá ${nome} é um prazer ter você por aqui!`)
 		function inicio() {
 
-			var escolha = parseInt(prompt('Selecione uma opção 1.) Saldo 2.) Depósito 3.) Saque 4.) Sair 5) Ver extrato'));
+			var escolha = parseInt(prompt('Selecione uma opção 1.) Saldo 2.) Ver extrato 3.) Saque 4.) Depósito  5) Transferência 6) Sair'));
 
 			switch (escolha) {
 				case 1:
 					ver_saldo();
 					break;
 				case 2:
-					fazer_deposito();
+					ver_extrato();
+
 					break;
 				case 3:
 					fazer_saque();
 
 					break;
 				case 4:
-					sair();
+					fazer_deposito();
 
 					break;
 				case 5:
-					ver_extrato();
+					transferencia();
 
+					break;
+				case 6:
+					sair();
 					break;
 
 				default:
@@ -37,6 +41,7 @@
 			}
 		}
 		function ver_saldo() {
+			senha()
 			alert('Seu saldo atual é: ' + saldo);
 			inicio();
 		}
@@ -48,12 +53,19 @@
 				alert('Por favor, informe um número:');
 				fazer_deposito();
 			} else {
-				saldo += deposito;
-				ver_saldo();
+				if (deposito <= 0) {
+					alert("Operação não autorizada")
+					fazer_deposito()
+
+				} else {
+					saldo += deposito;
+					ver_saldo();
+				}
 			}
 		}
 
 		function fazer_saque() {
+			senha()
 			var saque = parseFloat(prompt('Qual o valor para saque?'));
 			if (isNaN(saque) || saque === '') {
 				alert('Por favor, informe um número:');
@@ -70,32 +82,69 @@
 		}
 
 		function ver_extrato() {
+			senha()
+
 			var compras = {
-				nome: ["Roupa", "Fruta", "Comida"],
+				nome: ['Roupa', 'Fruta', 'Comida'],
 				Roupa: 120,
 				Fruta: 150,
 				Comida: 30
 			};
-
+			var nomeCompras = `${compras.nome[0]}: R$${compras.Roupa}\n` +
+				`${compras.nome[1]}: R$${compras.Fruta}\n` +
+				`${compras.nome[2]}: R$${compras.Comida}`;
 			var total = compras.Roupa + compras.Fruta + compras.Comida;
-
-			alert(`O seu extrato é de: R$ ${total}`);
+			alert(`O seu extrato é:\n${nomeCompras}\n\nTotal: R$${total}`);
+			inicio();
 		}
-		
+
+		function transferencia() {
+			senha()
+			var numerodaConta = parseInt(prompt("Digite o numero da conta"))
+			if (isNaN(numerodaConta)) {
+				alert("Valor inválido");
+				transferencia();
+			} else {
+				var valordaTranf = parseInt(prompt("Digite o valor da transferência"))
+				if (valordaTranf > saldo || valordaTranf <= 0) {
+					alert("Operação não autorizada")
+					ver_saldo();
+				} else {
+					saldo -= valordaTranf;
+					ver_saldo();
+				}
+			}
+
+		}
+
 		function erro() {
-			alert('Por favor, informe um número entre 1 e 4');
+			alert('Por favor, informe um número entre 1 e 6');
 			inicio();
 		}
 
 		function sair() {
 			var confirma = confirm('Você deseja sair?');
 			if (confirma) {
+				alert (`${nome}, foi um prazer ter você por aqui!`)
 				window.close();
 			} else {
 				inicio();
 			}
 		}
 
+		function senha() {
+			var senhaCtz = 3589
+			var senhaInformada = parseInt(prompt("Digite a senha para acessar"))
+			if (isNaN(senhaInformada) || senhaInformada === '') {
+				alert('Por favor, informe um número:');
+				senha()
+			} else {
+				if (senhaInformada != senhaCtz) {
+					alert("Senha incorreta!")
+					senha()	
+				}
+			}
+		}
 
 
 		inicio();
